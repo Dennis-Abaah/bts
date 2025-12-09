@@ -84,8 +84,8 @@
                     <h4 class="font-semibold text-white mb-3">Contact</h4>
                     <!-- UPDATED: Made phone number clickable for WhatsApp/call -->
                     <a href="https://wa.me/233504049664" target="_blank" class="text-sm text-slate-300 hover:text-indigo-400 transition block">WhatsApp: +233 50 404 9664</a>
-                    <a href="tel:+233504049664" class="text-sm text-slate-300 hover:text-indigo-400 transition block mt-1">Phone: +233 50 404 9664 </a>
-                    <p class="text-sm">Email: sales@btsghana.com</p>
+                    <a href="tel:+233504049664" class="text-sm text-slate-300 hover:text-indigo-400 transition block mt-1">Phone: +233 50 404 9664 (Mock)</a>
+                    <p class="text-sm">Email: sales@btsghana.com (Mock)</p>
                 </div>
                 <div>
                     <h4 class="font-semibold text-white mb-3">Follow Us</h4>
@@ -153,7 +153,7 @@
                 name: "BTS Signature Hoodie",
                 price: 200.00,
                 // MODIFIED: Updated images array to include the newly uploaded 'blhoodie.jpg'
-                images: ["hoodie.jfif", "blhoodie.jpg"],
+                images: ["hoodie.jfif", "blhoodie.png"],
                 category: "Apparel",
                 colors: [
                     { name: "White", hex: "#FFFFFF", border: true },
@@ -171,19 +171,34 @@
                 images: ["beany.jfif", "beany1.jfif"],
                 category: "Headwear",
                 colors: [
-                    { name: "Yellow", hex: "#EAB308" },
+                    { name: "Brown", hex: "#EDA268" },
                     { name: "Black", hex: "#000000" }
                 ],
                 sizes: ["One Size"],
                 status: "available",
                 description: "Knit cuff beanie keeping you warm and stylish. embroidered logo detail."
             },
+            
+           {
+              id: 5,  
+              name: "Hoodie & Shorts",
+              price: 350.00, 
+             images: ["hoshow.png", "hoshob.png"],
+             category: "Apparel", 
+             colors: [
+                { name: "Black", hex: "#000000" },
+                { name: "Ash", hex: "A9ACB2", border: true }
+           
+          ],
+              sizes: ["One Size"], 
+              status: "available", 
+              description: "Heavyweight cotton blend hoodie & shorts. Ultra-soft interior with durable print. Perfect for any season."
+            },
             {
                 id: 4,
-                name: "BTS Essential Tee",
+                name: "BTS Essential T-Shirt",
                 price: 120.00,
-                // UPDATED: Changed 'image' to 'images' for consistency
-                images: ["tshirt_placeholder"], // Will handle in render
+                images: ["tshirt_placeholder"], 
                 category: "Apparel",
                 colors: [
                     { name: "White", hex: "#FFFFFF", border: true },
