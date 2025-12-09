@@ -482,7 +482,7 @@
                                     <span>GH₵ ${subtotal.toFixed(2)}</span>
                                 </div>
                                 <div class="flex justify-between mb-6 text-slate-600">
-                                    <span>Shipping</span>
+                                    <span>Delivery</span>
                                     <span class="text-xs text-slate-400 mt-1">Calculated via WhatsApp</span>
                                 </div>
                                 <div class="border-t border-slate-100 pt-4 mb-6 flex justify-between font-bold text-lg">
@@ -675,7 +675,7 @@
                 total += item.price * item.quantity;
             });
             
-            text += `\n*Total Order Amount: GH₵ ${total.toFixed(2)}*\n\nPlease confirm my order and shipping details.`;
+            text += `\n*Total Order Amount: GH₵ ${total.toFixed(2)}*\n\nPlease confirm my order and delivery details.`;
             openWhatsApp(text);
         }
 
