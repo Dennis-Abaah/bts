@@ -84,8 +84,8 @@
                     <h4 class="font-semibold text-white mb-3">Contact</h4>
                     <!-- UPDATED: Made phone number clickable for WhatsApp/call -->
                     <a href="https://wa.me/233504049664" target="_blank" class="text-sm text-slate-300 hover:text-indigo-400 transition block">WhatsApp: +233 50 404 9664</a>
-                    <a href="tel:+233504049664" class="text-sm text-slate-300 hover:text-indigo-400 transition block mt-1">Phone: +233 50 404 9664 </a>
-                    <p class="text-sm">Email: sales@btsghana.com </p>
+                    <a href="tel:+233504049664" class="text-sm text-slate-300 hover:text-indigo-400 transition block mt-1">Phone: +233 50 404 9664 (Mock)</a>
+                    <p class="text-sm">Email: sales@btsghana.com (Mock)</p>
                 </div>
                 <div>
                     <h4 class="font-semibold text-white mb-3">Follow Us</h4>
@@ -133,7 +133,8 @@
                 id: 1,
                 name: "BTS Trucker Cap",
                 price: 100.00, // Assuming GHS or currency generic
-                image: "cp3.jfif",
+                // UPDATED: Added multiple images for the gallery/carousel
+                images: ["cp3.jfif", "cp1.jfif", "cp2.jfif", "cp4.jpg"],
                 category: "Headwear",
                 colors: [
                     { name: "Black", hex: "#000000" },
@@ -143,7 +144,6 @@
                     { name: "Light Blue", hex: "#38BDF8" },
                     { name: "Army Green", hex: "#4B5320" }
                 ],
-                // FIXED: Trucker Cap should be "One Size" only
                 sizes: ["One Size"], 
                 status: "available",
                 description: "Premium mesh trucker cap with 'Beat The System' embroidery. Adjustable snapback closure for the perfect fit."
@@ -152,7 +152,8 @@
                 id: 2,
                 name: "BTS Signature Hoodie",
                 price: 200.00,
-                image: "hoodie.jfif",
+                // MODIFIED: Updated images array to include the newly uploaded 'blhoodie.jpg'
+                images: ["hoodie.jfif", "blhoodie.jpg"],
                 category: "Apparel",
                 colors: [
                     { name: "White", hex: "#FFFFFF", border: true },
@@ -166,7 +167,8 @@
                 id: 3,
                 name: "BTS Urban Beanie",
                 price: 80.00,
-                image: "beany.jfif",
+                // UPDATED: Added extra image for the Beanie gallery
+                images: ["beany.jfif", "beany1.jfif"],
                 category: "Headwear",
                 colors: [
                     { name: "Yellow", hex: "#EAB308" },
@@ -180,7 +182,8 @@
                 id: 4,
                 name: "BTS Essential Tee",
                 price: 120.00,
-                image: "tshirt_placeholder", // Will handle in render
+                // UPDATED: Changed 'image' to 'images' for consistency
+                images: ["tshirt_placeholder"], // Will handle in render
                 category: "Apparel",
                 colors: [
                     { name: "White", hex: "#FFFFFF", border: true },
@@ -201,7 +204,8 @@
                 color: null,
                 size: null
             },
-            itemToDelete: null // Tracks the cartId of the item to be deleted
+            itemToDelete: null, // Tracks the cartId of the item to be deleted
+            currentImageIndex: 0 // New: Tracks current image for product details gallery
         };
 
         const WHATSAPP_NUMBER = "233504049664";
@@ -215,6 +219,8 @@
                     // Reset form selection and ensure defaults are set
                     state.form.color = state.selectedProduct.colors[0].name;
                     state.form.size = state.selectedProduct.sizes[0];
+                    // Reset image index for the new product
+                    state.currentImageIndex = 0; 
                 }
                 render();
                 window.scrollTo(0, 0);
@@ -233,7 +239,8 @@
                             BEAT THE SYSTEM. <span class="text-indigo-600">GH YOUTH CULTURE.</span>
                         </h1>
                         <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-700">
-                            We're a startup born from the hustle and creativity of Ghana's youth. Built on passion, designed for the streets. Shop the limited collection. First whatsapp order selling platform no need to sign up.
+                            We're a startup born from the hustle and creativity of Ghana's youth. Built on passion, designed for the streets. Shop the limited collection. 
+                            First Whatsapp order checkout in Ghana,no need to sign up.
                         </p>
                     </header>
 
@@ -251,9 +258,10 @@
 
         function ProductCard(product) {
             const isComingSoon = product.status === 'coming_soon';
+            // Use the first image in the array for the card view
             const imageSrc = product.id === 4 ? 
                 'https://placehold.co/600x600/f1f5f9/94a3b8?text=Coming+Soon' : 
-                product.image;
+                product.images[0];
 
             return `
                 <div class="group relative bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition-shadow duration-300">
@@ -288,6 +296,9 @@
         function DetailsView() {
             if (!state.selectedProduct) return HomeView();
             const product = state.selectedProduct;
+            
+            // Get the current image URL for the gallery
+            const currentImageUrl = product.images[state.currentImageIndex] || 'https://placehold.co/600x600/f1f5f9/94a3b8?text=No+Image';
 
             return `
                 <div class="fade-in max-w-5xl mx-auto">
@@ -297,9 +308,32 @@
                     </button>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
-                        <!-- Image Gallery -->
-                        <div class="aspect-square bg-slate-50 rounded-3xl overflow-hidden shadow-sm">
-                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x600/f1f5f9/94a3b8?text=No+Image'">
+                        <!-- Image Gallery (Carousel) -->
+                        <div class="aspect-square bg-slate-50 rounded-3xl overflow-hidden shadow-sm relative">
+                            <img src="${currentImageUrl}" 
+                                 alt="${product.name} - View ${state.currentImageIndex + 1}" 
+                                 class="w-full h-full object-cover transition-opacity duration-300" 
+                                 onerror="this.src='https://placehold.co/600x600/f1f5f9/94a3b8?text=No+Image'">
+                            
+                            <!-- Navigation Controls (Only show if more than one image exists) -->
+                            ${product.images.length > 1 ? `
+                                <button onclick="prevImage()" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-3 rounded-full shadow-lg text-slate-800 hover:bg-white transition z-10 w-10 h-10 flex items-center justify-center">
+                                    <i class="fa-solid fa-chevron-left text-sm"></i>
+                                </button>
+                                <button onclick="nextImage()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-3 rounded-full shadow-lg text-slate-800 hover:bg-white transition z-10 w-10 h-10 flex items-center justify-center">
+                                    <i class="fa-solid fa-chevron-right text-sm"></i>
+                                </button>
+                            ` : ''}
+                            
+                            <!-- Dots Indicator (Only show if more than one image exists) -->
+                            ${product.images.length > 1 ? `
+                                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                                    ${product.images.map((_, index) => `
+                                        <div class="w-2 h-2 rounded-full transition-all duration-300 ${state.currentImageIndex === index ? 'bg-white w-5' : 'bg-white/50 hover:bg-white/80'}"></div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+
                         </div>
 
                         <!-- Product Info -->
@@ -397,7 +431,8 @@
                                     </button>
 
                                     <div class="w-24 h-24 bg-slate-50 rounded-lg overflow-hidden flex-shrink-0">
-                                        <img src="${item.image}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x600/f1f5f9/94a3b8?text=No+Image'">
+                                        <!-- Use the first image for the cart view -->
+                                        <img src="${item.images[0]}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x600/f1f5f9/94a3b8?text=No+Image'">
                                     </div>
                                     <div class="flex-1 flex flex-col justify-between pr-8">
                                         <div>
@@ -458,7 +493,7 @@
                                     <i class="fa-brands fa-whatsapp"></i> Proceed to Checkout
                                 </button>
                                 <p class="text-xs text-center text-slate-400 mt-4">
-                                    Order details will be sent to our WhatsApp for processing.
+                                    Order details will be sent to our WhatsApp for processing.Don't edit message for clarity.
                                 </p>
                             </div>
                         </div>
@@ -467,10 +502,27 @@
             `;
         }
 
-        // --- Logic & Actions ---
+        // --- Logic & Actions (Gallery functions added here) ---
+
+        function prevImage() {
+            const product = state.selectedProduct;
+            if (!product || product.images.length <= 1) return;
+
+            state.currentImageIndex = (state.currentImageIndex - 1 + product.images.length) % product.images.length;
+            render();
+        }
+
+        function nextImage() {
+            const product = state.selectedProduct;
+            if (!product || product.images.length <= 1) return;
+
+            state.currentImageIndex = (state.currentImageIndex + 1) % product.images.length;
+            render();
+        }
 
         function render() {
             const app = document.getElementById('app');
+            // Use fade-in class on the view container for smoother transitions
             if (state.currentView === 'home') app.innerHTML = HomeView();
             else if (state.currentView === 'details') app.innerHTML = DetailsView();
             else if (state.currentView === 'cart') app.innerHTML = CartView();
